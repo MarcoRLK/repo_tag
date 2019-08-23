@@ -1,0 +1,8 @@
+{% block content %}
+	{% if user.is_authenticated %}
+			<p class="display-4">Hello, {{ user.username }}</p>
+             <p class="display-4">{{ user.first_name }}</p>
+	{% else %}
+             <p class="display-4">Hello, Desconhecido</p>
+	{% endif %}
+{% endblock content %}
