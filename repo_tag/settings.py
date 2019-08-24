@@ -42,6 +42,7 @@ INSTALLED_APPS = [
 ]
 
 LOGIN_URL = 'login'
+LOGOUT_URL = 'logout'
 LOGIN_REDIRECT_URL = 'home'
 
 SOCIAL_AUTH_GITHUB_KEY = 'd0ed069c3454b843c2fd'

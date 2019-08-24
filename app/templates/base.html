@@ -1,0 +1,30 @@
+{% load static %}<!DOCTYPE html>
+<html>
+<head>
+  <title>Repo tag</title>
+  <link rel="icon" type="image/png" href="{% static 'img/favicon.png' %}">
+</head>
+<body>
+  <header>
+    <h1>Repo tag</h1>
+    {% if user.is_authenticated %}
+      <strong>{{ user.username }}</strong> /
+      <a href="{% url 'home' %}">home</a> /
+      <a href="{% url 'logout' %}">logout</a>
+    {% else %}
+      <a href="{% url 'social:begin' 'github' %}"> Login  com github
+    {% endif %}
+  </header>
+  <main>
+    {% for message in messages %}
+      <p style="color: red">
+        {{ message }}
+      </p>
+    {% endfor %}
+    {% block content %}
+    {% endblock %}
+  </main>
+  <footer>
+  </footer>
+</body>
+</html>

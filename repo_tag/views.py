@@ -2,7 +2,7 @@ from django.shortcuts import render
 import requests
 import json
 
-api_token = 'd0ed069c3454b843c2fd'
+api_token = 'd0ed069c3454b843c2fd' ## client id
 
 api_url_base = 'https://api.github.com/'
 headers = {'Content-Type': 'application/json',
@@ -10,17 +10,12 @@ headers = {'Content-Type': 'application/json',
 			'Accept': 'application/vnd.github.v3+json'}
 
 def home(request):
-
-	repo_list = get_repos('marcorlk')
-
-	if repo_list is not None:
-		for repo in repo_list:
-			print('======================================================')
-			print(repo['name'])
-	else:
-		print('No Repo List Found')
-
-	return render(request, 'index.html')
+	username = None
+	if request.user.is_authenticated:
+		username = request.user.username
+	repo_list = get_repos(username)
+	
+	return render(request, 'index.html', {'repos': repo_list})
 
 def get_repos(username):
 

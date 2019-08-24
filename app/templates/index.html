@@ -1,8 +1,18 @@
+{% extends 'base.html' %}
+
 {% block content %}
+
+<body>
 	{% if user.is_authenticated %}
-			<p class="display-4">Hello, {{ user.username }}</p>
-             <p class="display-4">{{ user.first_name }}</p>
+	<p class="display-4">Olá, {{ user.first_name }}! Aqui estão os seus repositórios</p>
 	{% else %}
-             <p class="display-4">Hello, Desconhecido</p>
+		<p class="display-4">Olá, Desconhecido</p>
 	{% endif %}
+
+	{% for repo in repos%}
+	<a href={{repo.html_url}}>{{repo.name}}</a>
+	<br>
+	{% endfor %}
+</body>
+
 {% endblock content %}
