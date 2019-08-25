@@ -5,6 +5,7 @@ from .models import User, Repository, Tag
 from django.http import HttpResponse, HttpResponseRedirect
 
 api_token = 'd0ed069c3454b843c2fd' ## client id
+api_secret = 'faf64f58ec342492e929d38829596a704e96a4e7'
 
 api_url_base = 'https://api.github.com/'
 headers = {'Content-Type': 'application/json',
@@ -18,7 +19,13 @@ def show_dashboard(request):
         username = request.user.username
 	
     repo_list = get_repos(username)
-    return render(request, 'dashboard.html', {'repos': repo_list})
+    tag_list = []
+    for n in range(len(repo_list)):
+        tag_list.append(list(get_repotags(repo_list[n]['id'])))
+    
+    data = zip(repo_list, tag_list)
+    
+    return render(request, 'dashboard.html', {'data': data})
 
 
 def show_repo(request, github_id):
@@ -61,7 +68,7 @@ def show_repo(request, github_id):
 
 def get_repos(username):
 
-    api_url = '{}users/{}/repos'.format(api_url_base, username)
+    api_url = '{}users/{}/repos?clientid={}&client_secret={}'.format(api_url_base, username,api_token, api_secret)
 
     response = requests.get(api_url, headers=headers)
 
@@ -74,3 +81,9 @@ def get_repos(username):
 def create_tag(tag_name, color, user):
     new_tag = Tag(tag_name=tag_name, color=color, creator=user)
     new_tag.save()
+
+def get_repotags(github_id):
+    repo = Repository.objects.get(github_id=github_id)
+    tags = repo.tags.all()
+    return tags
+    

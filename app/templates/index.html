@@ -4,7 +4,7 @@
 
 <body>
 	{% if user.is_authenticated %}
-	<p class="display-4">Olá, {{ user.first_name }}! Seus repositórios foram salvos no nosso Banco de Dados.</p>
+		<p class="display-4">Olá, {{ user.first_name }}! Seus repositórios foram salvos no nosso Banco de Dados.</p>
 	{% else %}
 		<p class="display-4">Olá, Desconhecido</p>
 	{% endif %}
