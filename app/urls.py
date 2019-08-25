@@ -8,5 +8,6 @@ from . import views
 app_name = 'app'
 
 urlpatterns = [
-    
+    path('', views.show_dashboard, name='dash'),
+    path('repo/<int:github_id>', views.show_repo, name="show_repo"),
 ]

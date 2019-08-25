@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+    <h4>{{repo.name}}</h4>
+    <p>{{repo.id}}</p>
+    <p>{{repo.full_name}}</p>
+    <p>{{repo.owner.login}}</p>
+
+    <h4>Adicionar tag</h4>
+    <form role="form" class="form" method="POST" id="form1">
+        {% csrf_token %}
+        {% for tag in tags %}
+            <div>
+                <label for={{tag.tag_name}}>
+                    <input type="checkbox" name="tag_box" value={{tag.id}}>{{tag.tag_name}}
+                </label>
+            </div>
+        {% endfor %}
+        <input type="hidden" value="1" name="form1" />
+        <input type="submit" value="Salvar">
+    </form> 
+    <br>
+
+    <h4>Criar nova</h4>
+    <form role="form" class="form" method="POST" id="form2">
+        {% csrf_token %}
+        Tag name:<br>
+        <input type="text" name="tag_name" placeholder="Nome para a tag">
+        <br>
+        Tag color:<br>
+        <input type="text" name="color" placeholder="Cor">
+        <br><br>
+        <input type="hidden" value="2" name="form2" />
+        <input type="submit" value="Criar">
+    </form> 
+    <br>
+    
+
+
+
+{% endblock content %}

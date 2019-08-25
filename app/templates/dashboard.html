@@ -4,11 +4,16 @@
 
 <body>
 	{% if user.is_authenticated %}
-	<p class="display-4">Olá, {{ user.first_name }}! Seus repositórios foram salvos no nosso Banco de Dados.</p>
+	<p class="display-4">Aqui estão os seus repositórios</p>
 	{% else %}
 		<p class="display-4">Olá, Desconhecido</p>
-	{% endif %}
+    {% endif %}
+    
 
+	{% for repo in repos%}
+	<a href={{repo.html_url}}>{{repo.name}}</a>
+	<br>
+	{% endfor %}
 </body>
 
 {% endblock content %}

@@ -1,6 +1,7 @@
 from django.shortcuts import render
 import requests
 import json
+from app.models import User, Repository
 
 api_token = 'd0ed069c3454b843c2fd' ## client id
 
@@ -13,9 +14,25 @@ def home(request):
 	username = None
 	if request.user.is_authenticated:
 		username = request.user.username
-	repo_list = get_repos(username)
+		
+		# Saving User in DB
+		try:
+			user = User.objects.get(user_name=username)
+		except User.DoesNotExist:
+			user = User(user_name=username)
+			user.save()
+
+		repos = get_repos(username)
+
+		# Saving repos in DB
+		for repo in repos:
+			try:
+				n_repo = Repository.objects.get(github_id=repo['id'])
+			except Repository.DoesNotExist:
+				n_repo = Repository(github_id=repo['id'], owner=user)
+				n_repo.save()
 	
-	return render(request, 'index.html', {'repos': repo_list})
+	return render(request, 'index.html', {})
 
 def get_repos(username):
 
