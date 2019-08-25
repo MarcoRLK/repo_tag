@@ -15,23 +15,8 @@ def home(request):
 	if request.user.is_authenticated:
 		username = request.user.username
 		
-		# Saving User in DB
-		try:
-			user = User.objects.get(user_name=username)
-		except User.DoesNotExist:
-			user = User(user_name=username)
-			user.save()
+		save_user_repos(username)
 
-		repos = get_repos(username)
-
-		# Saving repos in DB
-		for repo in repos:
-			try:
-				n_repo = Repository.objects.get(github_id=repo['id'])
-			except Repository.DoesNotExist:
-				n_repo = Repository(github_id=repo['id'], owner=user)
-				n_repo.save()
-	
 	return render(request, 'index.html', {})
 
 def get_repos(username):
@@ -45,3 +30,19 @@ def get_repos(username):
     else:
         print('[!] HTTP {0} calling [{1}]'.format(response.status_code, api_url))
         return None
+
+def save_user_repos(username):
+	try:
+		user = User.objects.get(user_name=username)
+	except User.DoesNotExist:
+		user = User(user_name=username)
+		user.save()
+	
+	repos = get_repos(username)
+
+	for repo in repos:
+		try:
+			n_repo = Repository.objects.get(github_id=repo['id'])
+		except Repository.DoesNotExist:
+			n_repo = Repository(github_id=repo['id'], owner=user)
+			n_repo.save()

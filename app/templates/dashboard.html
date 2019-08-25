@@ -11,7 +11,7 @@
     
 
 	{% for repo in repos%}
-	<a href={{repo.html_url}}>{{repo.name}}</a>
+	<a href="/app/repo/{{repo.id}}">{{repo.name}}</a>
 	<br>
 	{% endfor %}
 </body>

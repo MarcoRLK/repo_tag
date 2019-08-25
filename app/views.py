@@ -17,12 +17,9 @@ def show_dashboard(request):
     if request.user.is_authenticated:
         username = request.user.username
 	
-    if request.method == "GET":
-        repo_list = get_repos(username)
-        return render(request, 'dashboard.html', {'repos': repo_list})
-    
-    elif request.method == "POST":
-        return HttpResponseRedirect('/')
+    repo_list = get_repos(username)
+    return render(request, 'dashboard.html', {'repos': repo_list})
+
 
 def show_repo(request, github_id):
 
@@ -32,30 +29,34 @@ def show_repo(request, github_id):
 
     creator = User.objects.get(user_name=username)
     tags = Tag.objects.filter(creator=creator)
-    rep = Repository.objects.get(github_id=github_id)
+    bd_rep = Repository.objects.get(github_id=github_id)
+    marked_tags = bd_rep.tags.all()
 
     if request.method == "GET":
-        repos = get_repos(username)
-        t_repo = [repo for repo in repos if repo['id'] == github_id][0]
+        all_repos = get_repos(username)
+        repo_by_id = [repo for repo in all_repos if repo['id'] == github_id][0]
 
-        return render(request, 'repository.html', {'repo': t_repo, 'tags' : tags})
+        return render(request, 'repository.html', {'repo': repo_by_id, 'tags' : tags,
+                                                    'marked_tags': marked_tags})
 
     elif request.method == "POST":
         if 'form1' in request.POST:
             boxes = request.POST.getlist("tag_box", None)
             boxes = [int(i) for i in boxes]
             ## atrelar tag ao repo
-            print(boxes)
+            
             for t in tags:
                 if t.id in boxes:
-                    t.repos.add(rep)
+                    bd_rep.tags.add(t)
                 else:
-                    t.repos.remove(rep)
+                    bd_rep.tags.remove(t)
+                bd_rep.save()
 
         elif "form2" in request.POST:
             tag_name = request.POST['tag_name']
             color = request.POST['color']
             create_tag(tag_name, color, creator)
+
         return HttpResponseRedirect('/app/repo/' + str(github_id))
 
 def get_repos(username):

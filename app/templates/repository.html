@@ -12,9 +12,15 @@
         {% csrf_token %}
         {% for tag in tags %}
             <div>
-                <label for={{tag.tag_name}}>
-                    <input type="checkbox" name="tag_box" value={{tag.id}}>{{tag.tag_name}}
-                </label>
+                {% if tag in marked_tags %}
+                    <label for={{tag.tag_name}}>
+                        <input type="checkbox" name="tag_box" value={{tag.id}} checked>{{tag.tag_name}}
+                    </label>
+                {% else %}
+                    <label for={{tag.tag_name}}>
+                        <input type="checkbox" name="tag_box" value={{tag.id}}>{{tag.tag_name}}
+                    </label>
+                {% endif %}
             </div>
         {% endfor %}
         <input type="hidden" value="1" name="form1" />
