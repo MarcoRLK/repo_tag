@@ -32,3 +32,6 @@ Para preparar o ambiente, você pode seguir os passos abaixo utilizando o docker
   `sudo docker-compose up`
   
   - Acesse o seu localhost:8000
+  - Para que tudo funcione corretamente, você ainda precisará criar um arquivo na pasta raíz denominado ".env" e guardar nele algumas variáveis, sendo elas:
+  SECRET_KEY, SOCIAL_AUTH_GITHUB_KEY, SOCIAL_AUTH_GITHUB_SECRET
+  Para a obtenção desses dois últimos crie um OAuth App do github pelo link https://github.com/settings/applications/new
