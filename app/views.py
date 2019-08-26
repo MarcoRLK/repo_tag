@@ -3,9 +3,11 @@ import requests
 import json
 from .models import User, Repository, Tag
 from django.http import HttpResponse, HttpResponseRedirect
+from decouple import config
 
-api_token = 'd0ed069c3454b843c2fd' ## client id
-api_secret = 'faf64f58ec342492e929d38829596a704e96a4e7'
+
+api_token = config('SOCIAL_AUTH_GITHUB_KEY') ## client id
+api_secret = config('SOCIAL_AUTH_GITHUB_SECRET')
 
 api_url_base = 'https://api.github.com/'
 headers = {'Content-Type': 'application/json',

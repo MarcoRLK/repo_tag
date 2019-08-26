@@ -2,8 +2,10 @@ from django.shortcuts import render
 import requests
 import json
 from app.models import User, Repository
+from decouple import config
 
-api_token = 'd0ed069c3454b843c2fd' ## client id
+
+api_token = config('SOCIAL_AUTH_GITHUB_KEY')
 
 api_url_base = 'https://api.github.com/'
 headers = {'Content-Type': 'application/json',
