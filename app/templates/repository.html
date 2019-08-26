@@ -2,47 +2,55 @@
 
 {% block content %}
 
-    <h4>{{repo.name}}</h4>
-    <p>{{repo.id}}</p>
-    <p>{{repo.full_name}}</p>
-    <p>{{repo.owner.login}}</p>
+<h2>Informações do repositório</h2>
 
-    <h4>Adicionar tag</h4>
-    <form role="form" class="form" method="POST" id="form1">
-        {% csrf_token %}
-        {% for tag in tags %}
-            <div>
-                {% if tag in marked_tags %}
-                    <label for={{tag.tag_name}}>
-                        <input type="checkbox" name="tag_box" value={{tag.id}} checked>{{tag.tag_name}}
-                    </label>
-                {% else %}
-                    <label for={{tag.tag_name}}>
-                        <input type="checkbox" name="tag_box" value={{tag.id}}>{{tag.tag_name}}
-                    </label>
-                {% endif %}
-            </div>
-        {% endfor %}
-        <input type="hidden" value="1" name="form1" />
-        <input type="submit" value="Salvar">
-    </form> 
-    <br>
+<div class="col-xs-4">
+        <p>Nome : {{repo.name}}<p>
+        <p>ID : {{repo.id}}</p>
+        <p>Owner : {{repo.owner.login}}</p>
+        <p>Nome completo : {{repo.full_name}}</p>
+</div>
 
-    <h4>Criar nova</h4>
-    <form role="form" class="form" method="POST" id="form2">
-        {% csrf_token %}
-        Tag name:<br>
-        <input type="text" name="tag_name" placeholder="Nome para a tag">
+    <div class="col-xs-3">
+        <h4>Editar tags</h4>
+        <form role="form" class="form" method="POST" id="form1">
+            {% csrf_token %}
+            {% for tag in tags %}
+                <div>
+                    {% if tag in marked_tags %}
+                        <label for={{tag.tag_name}} style="font-size: 20px" class="form-check-label">
+                            <input type="checkbox" class="form-check-input" name="tag_box" value={{tag.id}} checked>{{tag.tag_name}}
+                        </label>
+                    {% else %}
+                        <label for={{tag.tag_name}} style="font-size: 20px" class="form-check-label">
+                            <input type="checkbox" class="form-check-input" name="tag_box" value={{tag.id}}>{{tag.tag_name}}
+                        </label>
+                    {% endif %}
+                </div>
+            {% endfor %}
+            <input type="hidden" value="1" name="form1" />
+            <input type="submit" value="Salvar" class="btn btn-primary">
+        </form> 
         <br>
-        Tag color:<br>
-        <input type="text" name="color" placeholder="Cor">
-        <br><br>
-        <input type="hidden" value="2" name="form2" />
-        <input type="submit" value="Criar">
-    </form> 
-    <br>
-    
+    </div>
 
+
+    <div class="col-xs-3">
+        <h4>Criar nova</h4>
+        <form role="form" class="form" method="POST" id="form2">
+            {% csrf_token %}
+            Tag name:<br>
+        
+            <input type="text" class="form-control" name="tag_name" placeholder="Nome para a tag">
+            <br>
+            Tag color:<br>
+            <input name="color" type="color"/>
+            <br><br>
+            <input type="hidden" value="2" name="form2" />
+            <input type="submit" value="Criar" class="btn btn-primary">
+        </form> 
+    </div>
+    <br>
 
 
 {% endblock content %}

@@ -60,13 +60,14 @@ def show_repo(request, github_id):
                 else:
                     bd_rep.tags.remove(t)
                 bd_rep.save()
+            return HttpResponseRedirect('/app/')
 
         elif "form2" in request.POST:
             tag_name = request.POST['tag_name']
             color = request.POST['color']
             create_tag(tag_name, color, creator)
 
-        return HttpResponseRedirect('/app/repo/' + str(github_id))
+            return HttpResponseRedirect('/app/repo/' + str(github_id))
 
 def get_repos(username):
 
