@@ -3,7 +3,7 @@ import requests
 import json
 from app.models import User, Repository
 from decouple import config
-
+from django.http import HttpResponse, HttpResponseRedirect
 
 api_token = config('SOCIAL_AUTH_GITHUB_KEY')
 
@@ -23,15 +23,15 @@ def home(request):
 
 def get_repos(username):
 
-    api_url = '{}users/{}/repos'.format(api_url_base, username)
+	api_url = '{}users/{}/repos'.format(api_url_base, username)
 
-    response = requests.get(api_url, headers=headers)
+	response = requests.get(api_url, headers=headers)
 
-    if response.status_code == 200:
-        return json.loads(response.content.decode('utf-8'))
-    else:
-        print('[!] HTTP {0} calling [{1}]'.format(response.status_code, api_url))
-        return None
+	if response.status_code == 200:
+		return json.loads(response.content.decode('utf-8'))
+	else:
+		print('[!] HTTP {0} calling [{1}]'.format(response.status_code, api_url))
+		return HttpResponseRedirect('/error/')
 
 def save_user_repos(username):
 	try:

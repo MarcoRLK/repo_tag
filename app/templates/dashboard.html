@@ -2,13 +2,13 @@
 
 {% block content %}
 
-<body>
-	{% if user.is_authenticated %}
-		<p class="display-4">Aqui estão os seus repositórios</p>
-	{% else %}
-		<p class="display-4">Olá, Desconhecido</p>
-    {% endif %}
-    
+<body style="max-width: 80%; margin-left: auto; margin-right: auto">
+	
+	<div style="padding-top: 5%">
+		{% if user.is_authenticated %}
+			<h3>Aqui estão os seus repositórios</h3>
+		{% endif %}
+	</div>
 
 
 <input type="text" id="myInput" onkeyup="myFunction()" placeholder="Busca por tag" title="Digite uma tag">
@@ -24,7 +24,7 @@
 	  <td> 
 		{% if row.1|length > 0 %}
 			{% for tag in row.1 %}
-				{{ tag.tag_name }}
+					<span style="color: {{tag.color}}">•</span><span>{{ tag.tag_name }}</span>
 			{% endfor %}
 		{% endif %}	
 	  </td>
