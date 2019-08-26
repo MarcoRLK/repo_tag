@@ -4,6 +4,8 @@ import json
 from .models import User, Repository, Tag
 from django.http import HttpResponse, HttpResponseRedirect
 from decouple import config
+from django.contrib.auth.decorators import login_required
+from django.views.decorators.csrf import csrf_exempt
 
 
 api_token = config('SOCIAL_AUTH_GITHUB_KEY') ## client id
@@ -13,7 +15,9 @@ api_url_base = 'https://api.github.com/'
 headers = {'Content-Type': 'application/json',
 			'User-Agent': 'Python Student',
 			'Accept': 'application/vnd.github.v3+json'}
-            
+
+@login_required(redirect_field_name='', login_url='login')
+@csrf_exempt 
 def show_dashboard(request):
 
     username = None
@@ -29,7 +33,8 @@ def show_dashboard(request):
     
     return render(request, 'dashboard.html', {'data': data})
 
-
+@login_required(redirect_field_name='', login_url='login')
+@csrf_exempt 
 def show_repo(request, github_id):
 
     username = None
