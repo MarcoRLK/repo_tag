@@ -5,7 +5,7 @@ chardet==3.0.4
 coverage==4.5.4
 defusedxml==0.6.0
 dj-static==0.0.6
-Django==2.2.4
+Django==2.2.13
 idna==2.8
 importlib-metadata==0.19
 more-itertools==7.2.0
